@@ -2,7 +2,7 @@ from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
 
-from logic_utils import check_guess, get_range_for_difficulty, parse_guess
+from logic_utils import check_guess, get_range_for_difficulty, parse_guess, update_score
 
 APP_PATH = str(Path(__file__).resolve().parent.parent / "app.py")
 
@@ -61,6 +61,18 @@ def test_guess_outside_range_is_rejected():
     assert not parse_guess("51", 1, 50)[0]
     assert parse_guess("1", 1, 50) == (True, 1, None)
     assert parse_guess("50", 1, 50) == (True, 50, None)
+
+def test_wrong_guess_always_loses_points():
+    # A "Too High" guess on an even attempt used to add 5 points instead of subtracting them
+    for attempt in range(1, 9):
+        assert update_score(50, "Too High", attempt) == 45
+        assert update_score(50, "Too Low", attempt) == 45
+
+def test_first_try_win_scores_100():
+    # The win bonus used attempt_number + 1, so a first-try win only gave 80
+    assert update_score(0, "Win", 1) == 100
+    assert update_score(0, "Win", 2) == 90
+    assert update_score(0, "Win", 20) == 10
 
 def test_invalid_guess_does_not_use_an_attempt():
     # Attempts used to be counted before parse_guess checked the input,

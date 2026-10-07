@@ -57,4 +57,18 @@ def check_guess(guess, secret):
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
     """Update score based on outcome and attempt number."""
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    #FIX: Moved from app.py using agent mode. The AI found that a "Too High" guess on an
+    #     even attempt added 5 points instead of taking them away, so wrong guesses could
+    #     raise your score. Every wrong guess now costs 5 points. It also found the win
+    #     bonus used attempt_number + 1, so a first-try win only gave 80; it now gives 100
+    #     and drops by 10 per extra attempt (minimum 10).
+    if outcome == "Win":
+        points = 100 - 10 * (attempt_number - 1)
+        if points < 10:
+            points = 10
+        return current_score + points
+
+    if outcome in ("Too High", "Too Low"):
+        return current_score - 5
+
+    return current_score
