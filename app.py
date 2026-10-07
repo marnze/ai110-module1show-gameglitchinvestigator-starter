@@ -1,24 +1,6 @@
 import random
 import streamlit as st
-from logic_utils import get_range_for_difficulty, check_guess
-
-
-def parse_guess(raw: str):
-    if raw is None:
-        return False, None, "Enter a guess."
-
-    if raw == "":
-        return False, None, "Enter a guess."
-
-    try:
-        if "." in raw:
-            value = int(float(raw))
-        else:
-            value = int(raw)
-    except Exception:
-        return False, None, "That is not a number."
-
-    return True, value, None
+from logic_utils import get_range_for_difficulty, parse_guess, check_guess
 
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
@@ -130,14 +112,16 @@ if st.session_state.status != "playing":
     st.stop()
 
 if submit:
-    st.session_state.attempts += 1
+    ok, guess_int, err = parse_guess(raw_guess, low, high)
 
-    ok, guess_int, err = parse_guess(raw_guess)
-
+    #FIX: The AI pointed out attempts were counted before parse_guess checked the input,
+    #     so empty or invalid guesses used up an attempt. Attempts now only go up for
+    #     valid guesses, row 3 of bug log fixed.
     if not ok:
         st.session_state.history.append(raw_guess)
         st.error(err)
     else:
+        st.session_state.attempts += 1
         st.session_state.history.append(guess_int)
 
         if st.session_state.attempts % 2 == 0:

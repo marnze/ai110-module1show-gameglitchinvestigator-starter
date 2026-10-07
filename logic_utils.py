@@ -11,13 +11,28 @@ def get_range_for_difficulty(difficulty: str):
     return 1, 50
 
 
-def parse_guess(raw: str):
+def parse_guess(raw: str, low: int = None, high: int = None):
     """
     Parse user input into an int guess.
 
     Returns: (ok: bool, guess_int: int | None, error_message: str | None)
     """
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    #FIX: Moved from app.py using agent mode. The AI found that whitespace-only input
+    #     was reported as "not a number", decimals like "4.9" were silently truncated
+    #     to 4, and guesses outside the difficulty range were accepted. Input is now
+    #     stripped, only whole numbers are allowed, and the range is checked.
+    if raw is None or raw.strip() == "":
+        return False, None, "Enter a guess."
+
+    try:
+        value = int(raw.strip())
+    except ValueError:
+        return False, None, "Please enter a whole number."
+
+    if low is not None and high is not None and not (low <= value <= high):
+        return False, None, f"Guess must be between {low} and {high}."
+
+    return True, value, None
 
 
 def check_guess(guess, secret):
