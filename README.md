@@ -26,20 +26,31 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 📝 Document Your Experience
 
 - [ ] Describe the game's purpose.
+
+   The game's purpose is to let the user play a number guessing game, allowing the user to play in one of three difficulties: Easy, Normal, or Hard. The attempts allowed and number range for guesses changes with each mode accordingly. From a meta view, the game's purpose for CodePath students is to use AI to debug, refactor, and better understand a codebase.
+
 - [ ] Detail which bugs you found.
+
+   Section 1 of reflection.md better explains the bugs I found but in summary, the ones I personally found by manually going through the app and reading through the code: Pressing "Enter" in the guess textbox does not submit the guess (debatable if even a bug), wrong hints and go higher and go lower messages should be swapped, if guess is left as whitespace submitting the guess still decrements the attempt counter, New Game button does not work after a game ends either by winning or losing, checking "Show hint" only makes the hint appear after submitting a guess (also debatable if a bug, might make sense if you're given a point penalty for having it checked), and "Attempts left" shows one attempt less than the total attempts allowed for each mode. 
+
 - [ ] Explain what fixes you applied.
+
+   From the bugs I found manually, AI applied fixes to the wrong hints and swapping the higher and lower messages (row 2 of bug log), The whitespace-only guess being counted for the attempts (parse_guess validation, row 3 of bug log), New Game button logic fixed with updated session values and allowing its use at any point, including after a game ends (row 4 of bug log), and attempts now start at 0 instead of 1, and the "Attempts left" box fills in after the guess is counted (off-by-one fixed, last row of bug log)
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User guesses 51. 
+2. "Guess must be between 1 and 50." is shown since that's the new range for Normal mode.
+3. User guesses 25
+4. Game says "Go HIGHER!"
+5. User guesses 40.5
+6. Game tells user to "Please enter a whole number."
+7. Game ends after the correct guess.
 
-**Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
+
+**Screenshot** *(optional)*: ![woohoo](image.png)
 
 ## 🧪 Test Results
 
