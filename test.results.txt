@@ -1,0 +1,22 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.15, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\nunez\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\nunez\Desktop\AI110\ai110-module1show-gameglitchinvestigator-starter
+plugins: anyio-4.15.1
+collecting ... collected 13 items
+
+tests/test_game_logic.py::test_winning_guess PASSED                      [  7%]
+tests/test_game_logic.py::test_guess_too_high PASSED                     [ 15%]
+tests/test_game_logic.py::test_guess_too_low PASSED                      [ 23%]
+tests/test_game_logic.py::test_hint_messages_point_toward_secret PASSED  [ 30%]
+tests/test_game_logic.py::test_string_secret_compared_as_number PASSED   [ 38%]
+tests/test_game_logic.py::test_range_grows_with_difficulty PASSED        [ 46%]
+tests/test_game_logic.py::test_whitespace_guess_asks_for_a_guess PASSED  [ 53%]
+tests/test_game_logic.py::test_guess_with_surrounding_spaces_is_accepted PASSED [ 61%]
+tests/test_game_logic.py::test_decimal_guess_is_rejected PASSED          [ 69%]
+tests/test_game_logic.py::test_guess_outside_range_is_rejected PASSED    [ 76%]
+tests/test_game_logic.py::test_wrong_guess_always_loses_points PASSED    [ 84%]
+tests/test_game_logic.py::test_first_try_win_scores_100 PASSED           [ 92%]
+tests/test_game_logic.py::test_invalid_guess_does_not_use_an_attempt PASSED [100%]
+
+============================= 13 passed in 0.78s ==============================
