@@ -92,8 +92,9 @@ st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
+#FIX: Currently used attempts starts at 0 instead of 1 now, partly fixes last row of bug log
 if "attempts" not in st.session_state:
-    st.session_state.attempts = 1
+    st.session_state.attempts = 0
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -106,10 +107,15 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
-st.info(
-    f"Guess a number between 1 and 100. "
-    f"Attempts left: {attempt_limit - st.session_state.attempts}"
-)
+#FIX: Reserve the spot for "Attempts left" and fill it after the guess is counted, 
+#     so it no longer lags one guess behind. Last row of bug log now fixed
+attempts_info = st.empty()
+
+def show_attempts_left():
+    attempts_info.info(
+        f"Guess a number between 1 and 100. "
+        f"Attempts left: {attempt_limit - st.session_state.attempts}"
+    )
 
 with st.expander("Developer Debug Info"):
     st.write("Secret:", st.session_state.secret)
@@ -146,6 +152,7 @@ if st.session_state.status != "playing":
         st.success("You already won. Start a new game to play again.")
     else:
         st.error("Game over. Start a new game to try again.")
+    show_attempts_left()
     st.stop()
 
 if submit:
@@ -190,6 +197,8 @@ if submit:
                     f"The secret was {st.session_state.secret}. "
                     f"Score: {st.session_state.score}"
                 )
+
+show_attempts_left()
 
 st.divider()
 st.caption("Built by an AI that claims this code is production-ready.")
